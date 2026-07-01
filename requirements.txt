@@ -1,4 +1,4 @@
-google-genai
 google-adk
+google-genai
 numpy
 pydantic
