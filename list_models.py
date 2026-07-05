@@ -1,18 +1,30 @@
-import os, sys
-sys.path.append("src")
+"""Optional helper for listing Gemini models; not used by the simulator."""
 
-env_path = ".env"
-with open(env_path) as f:
-    for line in f:
-        line = line.strip()
-        if line and not line.startswith("#"):
-            parts = line.split("=", 1)
-            if len(parts) == 2:
-                os.environ[parts[0].strip()] = parts[1].strip().strip('"').strip("'")
+from __future__ import annotations
 
-from google import genai
-client = genai.Client()
-for m in client.models.list():
-    name = m.name.lower()
-    if "pro" in name or "flash" in name:
-        print(m.name)
+import os
+
+
+def main() -> int:
+    api_key = os.getenv("GOOGLE_API_KEY")
+    if not api_key:
+        raise SystemExit(
+            "GOOGLE_API_KEY is not set. The offline simulator does not require it."
+        )
+    try:
+        from google import genai
+    except ImportError as exc:
+        raise SystemExit(
+            'Install the optional helper dependency with: pip install "google-genai>=1,<2"'
+        ) from exc
+
+    client = genai.Client(api_key=api_key)
+    for model in client.models.list():
+        name = model.name.lower()
+        if "pro" in name or "flash" in name:
+            print(model.name)
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

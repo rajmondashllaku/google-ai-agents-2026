@@ -1,51 +1,57 @@
-import asyncio
-import sys
+"""Command-line entry point for the Kaggriculture farm simulation."""
 
-try:
-    from google.adk import InMemoryRunner
-except ImportError:
-    # Mock fallback for google.adk if not installed
-    class InMemoryRunner:
-        pass
+from __future__ import annotations
 
-class StateTracker:
-    def __init__(self, initial_capital):
-        self.capital = initial_capital
-        self.block = 0
+import argparse
 
-def before_model_callback(state, budget_request=None):
-    """
-    Mock fallback safety gate callback.
-    Enforces the <= 40% capital allocation boundary.
-    """
-    max_budget = state.capital * 0.40
-    return max_budget
+from .simulator import FarmSimulator
+from .tools import load_scenarios
 
-async def run_blocks():
-    """
-    Core asynchronous engine and 5-block automated runtime loop.
-    """
-    state = StateTracker(1000.0)
-    runner = InMemoryRunner()
 
-    print(f"- **Starting Capital**: ${state.capital:,.2f}")
+def build_parser() -> argparse.ArgumentParser:
+    scenarios = sorted(load_scenarios())
+    parser = argparse.ArgumentParser(
+        description="Run the offline Kaggriculture Risk-Aware Crop Planner simulation."
+    )
+    parser.add_argument(
+        "--scenario",
+        choices=scenarios,
+        default="normal_growth",
+        help="scripted local scenario to run",
+    )
+    parser.add_argument(
+        "--blocks",
+        type=int,
+        default=10,
+        help="number of simulation blocks (default: 10)",
+    )
+    parser.add_argument(
+        "--seed",
+        type=int,
+        default=42,
+        help="reproducibility label for this scripted run (default: 42)",
+    )
+    parser.add_argument(
+        "--quiet",
+        action="store_true",
+        help="suppress the block trace",
+    )
+    return parser
 
-    for i in range(1, 6):
-        state.block = i
 
-        # Sequential telemetry checks as per SKILL.md rules
-        import tools
-        weather = tools.get_weather_deltas()
-        soil = tools.get_soil_moisture()
-        market = tools.get_market_prices()
+def main() -> int:
+    args = build_parser().parse_args()
+    try:
+        simulator = FarmSimulator(
+            scenario=args.scenario,
+            blocks=args.blocks,
+            seed=args.seed,
+        )
+        simulator.run(verbose=not args.quiet)
+    except ValueError as exc:
+        raise SystemExit(f"error: {exc}") from exc
+    return 0
 
-        # Mock safety gate evaluating the budget
-        budget = before_model_callback(state)
-        state.capital -= budget
-
-        print(f"- **Block {i}**: Budget ${budget:.2f} | Remaining ${state.capital:.2f}")
-
-    print(f"- **Final Capital**: ${state.capital:.2f}")
 
 if __name__ == "__main__":
-    asyncio.run(run_blocks())
+    raise SystemExit(main())

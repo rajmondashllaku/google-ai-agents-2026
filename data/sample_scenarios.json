@@ -1,0 +1,278 @@
+{
+  "normal_growth": [
+    {
+      "rain_probability": 0.40,
+      "temperature_c": 21.0,
+      "weather_summary": "mild",
+      "soil_moisture": 0.58,
+      "soil_nutrients": 0.80,
+      "market_prices": {"wheat": 12.0, "corn": 9.0},
+      "event": "Stable spring conditions."
+    },
+    {
+      "rain_probability": 0.45,
+      "temperature_c": 22.0,
+      "weather_summary": "partly cloudy",
+      "soil_moisture": 0.56,
+      "soil_nutrients": 0.78,
+      "market_prices": {"wheat": 12.2, "corn": 9.1},
+      "event": "Moist soil supports planting."
+    },
+    {
+      "rain_probability": 0.20,
+      "temperature_c": 25.0,
+      "weather_summary": "warm and dry",
+      "soil_moisture": 0.46,
+      "soil_nutrients": 0.76,
+      "market_prices": {"wheat": 12.4, "corn": 9.0},
+      "event": "A short dry spell reduces surface moisture."
+    },
+    {
+      "rain_probability": 0.70,
+      "temperature_c": 20.0,
+      "weather_summary": "showers likely",
+      "soil_moisture": 0.62,
+      "soil_nutrients": 0.74,
+      "market_prices": {"wheat": 12.6, "corn": 9.2},
+      "event": "Rain restores field moisture."
+    },
+    {
+      "rain_probability": 0.35,
+      "temperature_c": 23.0,
+      "weather_summary": "clear",
+      "soil_moisture": 0.57,
+      "soil_nutrients": 0.72,
+      "market_prices": {"wheat": 12.9, "corn": 9.3},
+      "event": "Harvest weather is favorable."
+    },
+    {
+      "rain_probability": 0.30,
+      "temperature_c": 24.0,
+      "weather_summary": "sunny",
+      "soil_moisture": 0.54,
+      "soil_nutrients": 0.70,
+      "market_prices": {"wheat": 13.2, "corn": 9.4},
+      "event": "Prices strengthen gradually."
+    },
+    {
+      "rain_probability": 0.50,
+      "temperature_c": 22.0,
+      "weather_summary": "mixed clouds",
+      "soil_moisture": 0.59,
+      "soil_nutrients": 0.68,
+      "market_prices": {"wheat": 12.8, "corn": 9.5},
+      "event": "A balanced second planting window opens."
+    },
+    {
+      "rain_probability": 0.55,
+      "temperature_c": 21.0,
+      "weather_summary": "light rain possible",
+      "soil_moisture": 0.61,
+      "soil_nutrients": 0.66,
+      "market_prices": {"wheat": 12.7, "corn": 9.4},
+      "event": "Soil remains workable."
+    },
+    {
+      "rain_probability": 0.15,
+      "temperature_c": 26.0,
+      "weather_summary": "hot and dry",
+      "soil_moisture": 0.44,
+      "soil_nutrients": 0.64,
+      "market_prices": {"wheat": 12.9, "corn": 9.6},
+      "event": "Heat increases crop water demand."
+    },
+    {
+      "rain_probability": 0.65,
+      "temperature_c": 20.0,
+      "weather_summary": "rain approaching",
+      "soil_moisture": 0.60,
+      "soil_nutrients": 0.62,
+      "market_prices": {"wheat": 13.1, "corn": 9.5},
+      "event": "Rain closes the normal-growth cycle."
+    }
+  ],
+  "drought": [
+    {
+      "rain_probability": 0.12,
+      "temperature_c": 30.0,
+      "weather_summary": "hot and dry",
+      "soil_moisture": 0.34,
+      "soil_nutrients": 0.75,
+      "market_prices": {"wheat": 12.0, "corn": 9.0},
+      "event": "Drought watch begins."
+    },
+    {
+      "rain_probability": 0.08,
+      "temperature_c": 32.0,
+      "weather_summary": "very hot",
+      "soil_moisture": 0.28,
+      "soil_nutrients": 0.74,
+      "market_prices": {"wheat": 12.2, "corn": 9.1},
+      "event": "Topsoil dries rapidly."
+    },
+    {
+      "rain_probability": 0.10,
+      "temperature_c": 31.0,
+      "weather_summary": "dry",
+      "soil_moisture": 0.52,
+      "soil_nutrients": 0.72,
+      "market_prices": {"wheat": 12.4, "corn": 9.2},
+      "event": "Prior irrigation leaves a narrow planting window."
+    },
+    {
+      "rain_probability": 0.05,
+      "temperature_c": 34.0,
+      "weather_summary": "extreme heat",
+      "soil_moisture": 0.32,
+      "soil_nutrients": 0.70,
+      "market_prices": {"wheat": 12.7, "corn": 9.3},
+      "event": "Crop water stress returns."
+    },
+    {
+      "rain_probability": 0.18,
+      "temperature_c": 30.0,
+      "weather_summary": "dry breeze",
+      "soil_moisture": 0.40,
+      "soil_nutrients": 0.68,
+      "market_prices": {"wheat": 13.0, "corn": 9.5},
+      "event": "Mature plants are ready despite the dry soil."
+    },
+    {
+      "rain_probability": 0.15,
+      "temperature_c": 29.0,
+      "weather_summary": "mostly sunny",
+      "soil_moisture": 0.38,
+      "soil_nutrients": 0.66,
+      "market_prices": {"wheat": 13.3, "corn": 9.7},
+      "event": "Drought premiums support market prices."
+    },
+    {
+      "rain_probability": 0.22,
+      "temperature_c": 28.0,
+      "weather_summary": "isolated clouds",
+      "soil_moisture": 0.36,
+      "soil_nutrients": 0.64,
+      "market_prices": {"wheat": 13.1, "corn": 9.8},
+      "event": "A second dry planting cycle begins."
+    },
+    {
+      "rain_probability": 0.10,
+      "temperature_c": 33.0,
+      "weather_summary": "hot",
+      "soil_moisture": 0.30,
+      "soil_nutrients": 0.62,
+      "market_prices": {"wheat": 13.4, "corn": 9.9},
+      "event": "Irrigation remains the only useful field action."
+    },
+    {
+      "rain_probability": 0.25,
+      "temperature_c": 27.0,
+      "weather_summary": "clouds building",
+      "soil_moisture": 0.51,
+      "soil_nutrients": 0.60,
+      "market_prices": {"wheat": 13.2, "corn": 9.8},
+      "event": "Stored irrigation water restores moisture."
+    },
+    {
+      "rain_probability": 0.35,
+      "temperature_c": 26.0,
+      "weather_summary": "slight rain chance",
+      "soil_moisture": 0.48,
+      "soil_nutrients": 0.58,
+      "market_prices": {"wheat": 13.0, "corn": 9.6},
+      "event": "Drought conditions begin to ease."
+    }
+  ],
+  "market_spike": [
+    {
+      "rain_probability": 0.40,
+      "temperature_c": 21.0,
+      "weather_summary": "mild",
+      "soil_moisture": 0.58,
+      "soil_nutrients": 0.80,
+      "market_prices": {"wheat": 12.0, "corn": 9.0},
+      "event": "Markets open normally."
+    },
+    {
+      "rain_probability": 0.45,
+      "temperature_c": 22.0,
+      "weather_summary": "partly cloudy",
+      "soil_moisture": 0.57,
+      "soil_nutrients": 0.78,
+      "market_prices": {"wheat": 12.1, "corn": 9.1},
+      "event": "Planting conditions are stable."
+    },
+    {
+      "rain_probability": 0.35,
+      "temperature_c": 23.0,
+      "weather_summary": "clear",
+      "soil_moisture": 0.53,
+      "soil_nutrients": 0.76,
+      "market_prices": {"wheat": 12.2, "corn": 9.0},
+      "event": "Prices move within their normal range."
+    },
+    {
+      "rain_probability": 0.50,
+      "temperature_c": 22.0,
+      "weather_summary": "mild",
+      "soil_moisture": 0.56,
+      "soil_nutrients": 0.74,
+      "market_prices": {"wheat": 12.4, "corn": 9.2},
+      "event": "The wheat crop reaches maturity."
+    },
+    {
+      "rain_probability": 0.30,
+      "temperature_c": 24.0,
+      "weather_summary": "sunny",
+      "soil_moisture": 0.52,
+      "soil_nutrients": 0.72,
+      "market_prices": {"wheat": 14.88, "corn": 9.3},
+      "event": "Wheat jumps 20.0% in a single block."
+    },
+    {
+      "rain_probability": 0.35,
+      "temperature_c": 23.0,
+      "weather_summary": "clear",
+      "soil_moisture": 0.51,
+      "soil_nutrients": 0.70,
+      "market_prices": {"wheat": 14.70, "corn": 9.4},
+      "event": "Wheat volatility subsides."
+    },
+    {
+      "rain_probability": 0.45,
+      "temperature_c": 22.0,
+      "weather_summary": "cloudy",
+      "soil_moisture": 0.55,
+      "soil_nutrients": 0.68,
+      "market_prices": {"wheat": 14.40, "corn": 9.5},
+      "event": "The market settles into a higher range."
+    },
+    {
+      "rain_probability": 0.55,
+      "temperature_c": 21.0,
+      "weather_summary": "light rain",
+      "soil_moisture": 0.60,
+      "soil_nutrients": 0.66,
+      "market_prices": {"wheat": 14.10, "corn": 9.4},
+      "event": "Field and market conditions stabilize."
+    },
+    {
+      "rain_probability": 0.25,
+      "temperature_c": 25.0,
+      "weather_summary": "warm",
+      "soil_moisture": 0.49,
+      "soil_nutrients": 0.64,
+      "market_prices": {"wheat": 13.90, "corn": 9.6},
+      "event": "Normal price discovery resumes."
+    },
+    {
+      "rain_probability": 0.60,
+      "temperature_c": 20.0,
+      "weather_summary": "rain likely",
+      "soil_moisture": 0.61,
+      "soil_nutrients": 0.62,
+      "market_prices": {"wheat": 13.80, "corn": 9.5},
+      "event": "The spike scenario closes without another shock."
+    }
+  ]
+}
