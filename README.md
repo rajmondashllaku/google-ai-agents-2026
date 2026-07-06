@@ -244,12 +244,7 @@ python -m src.main --mode adk --scenario normal_growth --blocks 10
 ```
 
 ADK mode requires a valid API key and may consume Gemini quota or billable
-tokens. If Gemini is unavailable or returns malformed data, the adapter proposes
-a safe `WAIT` and logs the fallback. Deterministic mode is recommended for tests
-and reproducible evaluation. The optional `list_models.py` helper can list model
-names for configured credentials; it is not part of either simulation path.
-
-If Google returns `403 PERMISSION_DENIED`, verify the key and its project in
-Google AI Studio. ADK mode uses the Gemini Developer API rather than Vertex AI,
-and fatal authentication or project-access errors stop further model calls for
-the remainder of that run while the simulator safely waits.
+tokens. Proposals that do not match the decision schema become a safe `WAIT`
+and are logged. Deterministic mode is recommended for tests and reproducible
+evaluation. The optional `list_models.py` helper can list model names for
+configured credentials; it is not part of either simulation path.
