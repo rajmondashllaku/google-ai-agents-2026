@@ -2,8 +2,17 @@
 
 from __future__ import annotations
 
+from typing import Protocol
+
 from .models import Decision, FarmState
 from .policy import BaselinePolicy
+
+
+class DecisionAgent(Protocol):
+    """Minimal proposal interface accepted by the existing simulator."""
+
+    def choose_action(self, state: FarmState) -> Decision:
+        ...
 
 
 class KaggricultureAgent:

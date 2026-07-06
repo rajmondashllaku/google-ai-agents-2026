@@ -117,13 +117,14 @@ Python 3.10 or newer is recommended.
 python -m venv .venv
 ```
 
-Activate the environment, then install the small test dependency set:
+Activate the environment, then install the runtime and test dependencies:
 
 ```bash
 pip install -r requirements.txt
 ```
 
-The simulation runtime itself uses only the Python standard library.
+The command-line simulator uses the Python standard library. Streamlit and
+pandas provide the optional web dashboard.
 
 ## Run the simulation
 
@@ -143,6 +144,20 @@ python -m src.main --scenario market_spike --blocks 10
 
 Use `--quiet` when only the exit status matters, or `--seed 123` to label a
 reproducibility run.
+
+## Run the Streamlit dashboard
+
+Launch the interactive dashboard from the project root:
+
+```bash
+streamlit run streamlit_app.py
+```
+
+The app opens in a browser and provides scenario, block, starting-cash, and seed
+controls. It displays final safety metrics, cash and market charts, weather and
+soil trends, a block-by-block inspector, the full decision ledger, and final farm
+inventory. The dashboard calls the same `FarmSimulator` and deterministic
+guardrails as the command-line interface.
 
 ## Tests
 
@@ -200,24 +215,41 @@ success criteria.
 - The baseline policy is deliberately conservative and rule-based. Passing a
   guardrail means an action is safe under these rules, not economically optimal.
 
-## Optional Gemini/ADK experimentation
+## Google ADK + Gemini Mode
 
-Gemini and Google ADK are not in the default decision path, and no credential is
-needed to run or test the planner. This is intentional: external model output
-must never be required for the local capstone or bypass deterministic
-guardrails.
+The local simulator and deterministic safety layer remain the application core.
+In optional ADK mode, a real Google ADK `Agent`, `Runner`, and in-memory session
+let Gemini inspect the active block through read-only farm, weather, soil,
+market, inventory, crop, and action tools. Gemini proposes one structured
+`Decision`; it cannot mutate state. The existing Python guardrails still approve,
+reject, or pause every proposal before the simulator applies it.
 
-The retained `list_models.py` helper is optional and only lists models available
-to configured credentials:
+Copy `.env.example` to a local `.env` (which is ignored by Git) and configure:
 
 ```bash
-pip install "google-genai>=1,<2"
-export GOOGLE_API_KEY="your-key"
-python list_models.py
+GOOGLE_API_KEY=your_google_ai_studio_key
+GEMINI_MODEL=gemini-2.5-flash
 ```
 
-On PowerShell, set the variable with
-`$env:GOOGLE_API_KEY = "your-key"`. `.env.example` contains a placeholder only;
-the helper does not read or modify a real `.env` file. A future model-backed
-policy can produce the same structured `Decision`, but it must still pass
-`validate_decision` before state changes.
+Run the reproducible offline policy, which uses no API credentials or tokens:
+
+```bash
+python -m src.main --mode deterministic --scenario normal_growth --blocks 10
+```
+
+Run Gemini through Google ADK:
+
+```bash
+python -m src.main --mode adk --scenario normal_growth --blocks 10
+```
+
+ADK mode requires a valid API key and may consume Gemini quota or billable
+tokens. If Gemini is unavailable or returns malformed data, the adapter proposes
+a safe `WAIT` and logs the fallback. Deterministic mode is recommended for tests
+and reproducible evaluation. The optional `list_models.py` helper can list model
+names for configured credentials; it is not part of either simulation path.
+
+If Google returns `403 PERMISSION_DENIED`, verify the key and its project in
+Google AI Studio. ADK mode uses the Gemini Developer API rather than Vertex AI,
+and fatal authentication or project-access errors stop further model calls for
+the remainder of that run while the simulator safely waits.

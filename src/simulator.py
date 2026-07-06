@@ -6,10 +6,11 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Callable
 
-from .agent import KaggricultureAgent
+from .agent import DecisionAgent, KaggricultureAgent
 from .guardrails import IRRIGATION_MOISTURE_GAIN, validate_decision
 from .models import (
     ActionType,
+    BlockSnapshot,
     CROP_CATALOG,
     Decision,
     DecisionRecord,
@@ -34,6 +35,7 @@ class SimulationResult:
     blocks_run: int
     starting_cash: float
     state: FarmState
+    block_snapshots: list[BlockSnapshot]
     approved_decisions: int
     rejected_decisions: int
     volatility_pauses: int
@@ -49,7 +51,7 @@ class FarmSimulator:
         seed: int = 42,
         initial_cash: float = 1_000.0,
         scenario_path: str | Path = DEFAULT_SCENARIO_PATH,
-        agent: KaggricultureAgent | None = None,
+        agent: DecisionAgent | None = None,
     ) -> None:
         if blocks < 1:
             raise ValueError("blocks must be at least 1")
@@ -75,6 +77,7 @@ class FarmSimulator:
         paused = 0
         unsafe = 0
         starting_cash = self.state.cash
+        snapshots: list[BlockSnapshot] = []
 
         for block_number in range(1, self.blocks + 1):
             step = get_scenario_step(
@@ -122,6 +125,7 @@ class FarmSimulator:
                     f"Result: {result_text}",
                 ]
             )
+            snapshots.append(self._snapshot())
             if verbose:
                 self._print_block(step, record, output)
 
@@ -131,6 +135,7 @@ class FarmSimulator:
             blocks_run=self.blocks,
             starting_cash=starting_cash,
             state=self.state,
+            block_snapshots=snapshots,
             approved_decisions=approved,
             rejected_decisions=rejected,
             volatility_pauses=paused,
@@ -139,6 +144,23 @@ class FarmSimulator:
         if verbose:
             self._print_summary(result, output)
         return result
+
+    def _snapshot(self) -> BlockSnapshot:
+        return BlockSnapshot(
+            block_number=self.state.block_number,
+            cash=self.state.cash,
+            soil_moisture=self.state.soil_moisture,
+            soil_nutrients=self.state.soil_nutrients,
+            rain_probability=self.state.weather.rain_probability,
+            temperature_c=self.state.weather.temperature_c,
+            weather_summary=self.state.weather.summary,
+            market_prices=dict(self.state.current_market_prices),
+            seed_inventory=dict(self.state.seed_inventory),
+            inventory=dict(self.state.inventory),
+            planted_quantity=sum(
+                planted.quantity for planted in self.state.planted_crops
+            ),
+        )
 
     def _observe(self, block_number: int, step: ScenarioStep) -> None:
         self.state.block_number = block_number

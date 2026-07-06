@@ -106,6 +106,21 @@ class DecisionRecord:
     result: str
 
 
+@dataclass(frozen=True)
+class BlockSnapshot:
+    block_number: int
+    cash: float
+    soil_moisture: float
+    soil_nutrients: float
+    rain_probability: float
+    temperature_c: float
+    weather_summary: str
+    market_prices: dict[str, float]
+    seed_inventory: dict[str, int]
+    inventory: dict[str, int]
+    planted_quantity: int
+
+
 @dataclass
 class FarmState:
     block_number: int

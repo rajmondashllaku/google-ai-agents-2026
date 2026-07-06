@@ -3,6 +3,8 @@
 from __future__ import annotations
 
 import argparse
+import sys
+from collections.abc import Sequence
 
 from .simulator import FarmSimulator
 from .tools import load_scenarios
@@ -12,6 +14,12 @@ def build_parser() -> argparse.ArgumentParser:
     scenarios = sorted(load_scenarios())
     parser = argparse.ArgumentParser(
         description="Run the offline Kaggriculture Risk-Aware Crop Planner simulation."
+    )
+    parser.add_argument(
+        "--mode",
+        choices=["deterministic", "adk"],
+        default="deterministic",
+        help="decision provider: local deterministic policy or Gemini via ADK",
     )
     parser.add_argument(
         "--scenario",
@@ -39,17 +47,32 @@ def build_parser() -> argparse.ArgumentParser:
     return parser
 
 
-def main() -> int:
-    args = build_parser().parse_args()
+def main(argv: Sequence[str] | None = None) -> int:
+    args = build_parser().parse_args(argv)
+    decision_agent = None
+    if args.mode == "adk":
+        from .adk_agent import AdkConfigurationError, AdkKaggricultureAgent
+
+        try:
+            decision_agent = AdkKaggricultureAgent.from_environment()
+        except AdkConfigurationError as exc:
+            print(f"error: {exc}", file=sys.stderr)
+            return 2
+
     try:
         simulator = FarmSimulator(
             scenario=args.scenario,
             blocks=args.blocks,
             seed=args.seed,
+            agent=decision_agent,
         )
         simulator.run(verbose=not args.quiet)
     except ValueError as exc:
-        raise SystemExit(f"error: {exc}") from exc
+        print(f"error: {exc}", file=sys.stderr)
+        return 2
+    finally:
+        if decision_agent is not None:
+            decision_agent.close()
     return 0
 
 
